@@ -6,7 +6,8 @@ class LinkedPair:
         self.key = key
         self.value = value
         self.next = None
-
+    def __str__(self):
+        return f'<{self.key}, {self.value}'
 class HashTable:
     '''
     A hash table that with `capacity` buckets
@@ -54,8 +55,19 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
 
+        pair = self.storage[index]
+        if pair is not None:
+            if pair.key != key:
+                print('Warning: Overwriting value')
+                pair.key = key
+            pair.value = value
+        else:
+            self.storage[index] = LinkedPair(key, value)
+        
+        
+        
 
 
     def remove(self, key):
@@ -66,7 +78,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        if self.storage[index] is not None and self.storage[index].key == key:
+            self.storage[index] = None
+        else:
+            print('Key does not exist')
 
 
     def retrieve(self, key):
@@ -77,7 +94,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        if self.storage[index] is not None and self.storage[index].key == key:
+                return self.storage[index].value
+        else:
+            return None
 
 
     def resize(self):
@@ -87,7 +109,9 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        
+            
+
 
 
 
