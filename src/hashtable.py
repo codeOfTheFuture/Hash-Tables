@@ -16,7 +16,7 @@ class HashTable:
     def __init__(self, capacity):
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
-
+        self.size = self.capacity
 
     def _hash(self, key):
         '''
@@ -56,17 +56,19 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-
-        pair = self.storage[index]
-        if pair is not None:
-            if pair.key != key:
-                print('Warning: Overwriting value')
-                pair.key = key
-            pair.value = value
+        if self.storage[index]:
+            pair = self.storage[index]
+            for entity in pair:
+                if pair[entity] == pair[key]:
+                    if entity == value:
+                        pair[value] = value
+                        return
+                prev = pair
+                pair = pair.next
+                prev.next = LinkedPair(key, value)
         else:
-            self.storage[index] = LinkedPair(key, value)
-        
-        
+            self.storage[index] == LinkedPair(key, value)
+            self.size += 1
         
 
 
